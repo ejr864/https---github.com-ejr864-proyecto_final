@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LISTADO DE TEMAS</title>
+    <h1>LISTADO DE TEMAS2</h1>
+    <h1>ESTOY EN TEMAS</h1>
+
+    {% for tema in temas %}
+
+    <li>{{ tema.titulo }} {{ tema.fecha }} - {{ tema.categoria }} - {{ tema.contenido }}</li>
+
+    <a class="btn btn-danger" href="#!">Eliminar </a>
+    <a class="btn btn-success" href="#!">Editar </a>
+
+
+
+
+    {% endfor %}
+
+</head>
+<body>
+    
+</body>
+</html>
+

@@ -1,0 +1,25 @@
+{% extends "AppBlog/padre.html" %}
+
+{% load static %}
+
+{% block titulo %}
+<h1 class="mb-5"> ESTE TITULO VIENE DE INICIO </h1>
+{% endblock %}
+
+
+
+{% block contenido_que_cambia %}
+<h1>ESTE ES EL CONTENIDO QUE CAMBIO!</h1>
+
+<h2>{{ mensaje }}</h2>
+{% endblock %}
+
+
+
+{% block subtitulo %}
+
+<h3> Este es un subtitulo</h3>
+<p> ACA CONTINUA MI SUBTITULO</p>
+
+
+{% endblock %}
