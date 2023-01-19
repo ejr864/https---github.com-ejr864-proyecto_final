@@ -8,4 +8,11 @@ urlpatterns = [
     path('', inicio, name="inicio"),
     path("leerTemas/", leerTemas, name="leerTemas"),
     path("agregarTema/", agregarTema, name="agregarTema"),
+    path("editarTema/<id>", editarTema, name="editarTema"),
+    path("eliminarTema/<id>", eliminarTema, name="eliminarTema"),
+    path("buscar/", buscar, name="buscar"),
+    path("temaBusq/", temaBusq, name="temaBusq"),
+    
+    
+    
 ]

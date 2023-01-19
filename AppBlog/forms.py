@@ -6,8 +6,10 @@ from datetime import datetime
 
 class TemaFormu(forms.Form):
     titulo= forms.CharField(label="Titulo Tema", max_length=50)
+    autor= forms.CharField(label="Autor", max_length=50)
     categoria= forms.CharField(label="Categoria", max_length=50)
     contenido= forms.CharField(label="Contenido", max_length=50)
+    
 
 class RegistroUsuarioForm(UserCreationForm):
     email= forms.EmailField(label="Email Usuario")

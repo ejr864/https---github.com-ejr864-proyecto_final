@@ -7,13 +7,13 @@ from datetime import datetime
 
 class Tema(models.Model):
     titulo= models.CharField(max_length=50)
-    fecha= models.DateField(default=datetime.now)
+    fecha= models.DateField(auto_now_add=True)
     autor= models.CharField(max_length=50)
     categoria= models.CharField(max_length=50)
-    contenido= models.CharField(max_length=200)
+    contenido= models.TextField()
 
     def __str__(self):
-        return f"{self.titulo} - {self.categoria} "
+        return f"{self.titulo} - {self.categoria} - {self.autor} - {self.contenido} "
 
 
 class Usuario(models.Model):
@@ -32,3 +32,4 @@ class Avatar(models.Model):
 
     def __str__(self):
         return f"{self.user} - {self.imagen}"
+

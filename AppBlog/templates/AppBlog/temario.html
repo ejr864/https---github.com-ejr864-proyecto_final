@@ -12,13 +12,12 @@
 
     <li>{{ tema.titulo }} {{ tema.fecha }} - {{ tema.categoria }} - {{ tema.contenido }}</li>
 
-    <a class="btn btn-danger" href="#!">Eliminar </a>
-    <a class="btn btn-success" href="#!">Editar </a>
-
-
-
+    <a class="btn btn-danger" href="{% url 'eliminarTema' tema.id %}">Eliminar </a>
+    <a class="btn btn-success" href="{% url 'editarTema' tema.id %}">Editar </a>
 
     {% endfor %}
+
+
 
 </head>
 <body>
