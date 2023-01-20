@@ -3,19 +3,18 @@
 {% load static %}
 
 {% block titulo %}
-<h1 class="fw-bolder">EDITANDO TEMA </h1>
+<h1 class="fw-bolder">ESTOY EN LOGIN </h1>
 {% endblock %}
 
 
 
 {% block contenido_que_cambia %}
-<h1 class="mb-5">FORMULARIO DE EDICION</h1>
+<h1 class="mb-5">FORMULARIO DE INGRESO</h1>
 
     
 <h3>{{ mensaje }}</h3>
 
-
-<form action="{% url 'editarTema' tema.id %}" method="POST"> {% csrf_token %}
+<form action="{% url 'login' %}" method="POST"> {% csrf_token %}
 
     <table>
 
@@ -23,8 +22,13 @@
     
     </table>
 
-    <input type="submit" value="Guardar Cambios">
+    <input type="submit" value="Ingresar">
+
+
+
+
 </form>
+
 
 {% endblock %}
 

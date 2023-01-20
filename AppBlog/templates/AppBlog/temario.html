@@ -1,27 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LISTADO DE TEMAS</title>
-    <h1>LISTADO DE TEMAS2</h1>
-    <h1>ESTOY EN TEMAS</h1>
+{% extends "AppBlog/abuelo.html" %}
 
-    {% for tema in temas %}
+{% load static %}
 
-    <li>{{ tema.titulo }} {{ tema.fecha }} - {{ tema.categoria }} - {{ tema.contenido }}</li>
-
-    <a class="btn btn-danger" href="{% url 'eliminarTema' tema.id %}">Eliminar </a>
-    <a class="btn btn-success" href="{% url 'editarTema' tema.id %}">Editar </a>
-
-    {% endfor %}
+{% block titulo %}
+<h1 class="fw-bolder">LISTADO DE TEMAS </h1>
+{% endblock %}
 
 
 
-</head>
-<body>
-    
-</body>
-</html>
+{% block contenido_que_cambia %}
 
+
+{% for tema in temas %}
+
+
+<li><h2 class="card-title">{{ tema.titulo }}</h2> {{ tema.fecha }} - {{ tema.categoria }} - {{ tema.contenido }}</li>
+
+
+<a class="btn btn-danger btn-sm" href="{% url 'eliminarTema' tema.id %}">Eliminar </a>
+<a class="btn btn-primary btn-sm" href="{% url 'editarTema' tema.id %}">Editar </a>
+
+{% endfor %}
+
+<h2>{{ mensaje }}</h2>
+{% endblock %}
+
+
+
+{% block subtitulo %}
+
+
+
+{% endblock %}

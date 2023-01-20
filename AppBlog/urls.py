@@ -12,6 +12,11 @@ urlpatterns = [
     path("eliminarTema/<id>", eliminarTema, name="eliminarTema"),
     path("buscar/", buscar, name="buscar"),
     path("temaBusq/", temaBusq, name="temaBusq"),
+
+    path("register/", register, name="register"),
+    path("login/", loginvista, name="login"),
+    path("logout/", LogoutView.as_view(), name="logout"),
+    path("editarPerfil/", editarPerfil, name="editarPerfil"),
     
     
     

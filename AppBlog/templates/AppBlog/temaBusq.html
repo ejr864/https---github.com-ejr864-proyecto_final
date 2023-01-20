@@ -1,30 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EDITAR TEMA </title>
-    <h1>EDITAR TEMA</h1>
-    <h1>editando {{ tema }}</h1>
-    
-{% block contenido_que_cambia %}
+{% extends "AppBlog/abuelo.html" %}
 
+{% load static %}
+
+{% block titulo %}
+<h1 class="fw-bolder"></h1>
+{% endblock %}
+
+
+
+{% block contenido_que_cambia %}
+<h1 class="mb-5">BUSCAR TEMA</h1>
+
+    
 <h3>{{ mensaje }}</h3>
 
-    <form action="{% url 'buscar'  %}" method="GET"> 
+<div class="col-lg-4">
+    <!-- Search widget-->
+    <div class="card mb-4">
+        <div class="card-header">BUSCAR</div>
+        <div class="card-body">
+            <div class="input-group">
+                <form action="{% url 'buscar'  %}" method="GET"> 
+                <input class="form-control" type="text" name="titulo" id="titulo" placeholder="Insertar"  aria-describedby="button-search" />
+                <button class="btn btn-primary btn-sm" id="button-search" type="submit" value="buscar tema">Buscar</button>
+                </form>
+            </div>
+        </div>
+    </div>
 
-        <input type="text" name="titulo" id="titulo" placeholder="INSERTE TITULO">
 
-        <input type="submit" value="buscar tema">
 
-    </form>
 
-    {% endblock %}
+{% endblock %}
 
-</head>
-<body>
-    
-</body>
-</html>
+
+
 
