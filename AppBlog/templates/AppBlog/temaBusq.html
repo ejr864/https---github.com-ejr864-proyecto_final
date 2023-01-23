@@ -3,25 +3,25 @@
 {% load static %}
 
 {% block titulo %}
-<h1 class="fw-bolder"></h1>
+
 {% endblock %}
 
 
 
 {% block contenido_que_cambia %}
-<h1 class="mb-5">BUSCAR TEMA</h1>
 
+<h2 class="card-title">Buscar Tema</h2>
     
 <h3>{{ mensaje }}</h3>
 
 <div class="col-lg-4">
     <!-- Search widget-->
     <div class="card mb-4">
-        <div class="card-header">BUSCAR</div>
+        <div class="card-header"></div>
         <div class="card-body">
             <div class="input-group">
                 <form action="{% url 'buscar'  %}" method="GET"> 
-                <input class="form-control" type="text" name="titulo" id="titulo" placeholder="Insertar"  aria-describedby="button-search" />
+                <input class="form-control" type="text" name="titulo" id="titulo" placeholder="Insertar Tema"  aria-describedby="button-search" />
                 <button class="btn btn-primary btn-sm" id="button-search" type="submit" value="buscar tema">Buscar</button>
                 </form>
             </div>

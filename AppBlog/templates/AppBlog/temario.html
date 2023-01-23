@@ -2,33 +2,61 @@
 
 {% load static %}
 
-{% block titulo %}
-<h1 class="fw-bolder">LISTADO DE TEMAS </h1>
-{% endblock %}
+
 
 
 
 {% block contenido_que_cambia %}
+{% block titulo %}
 
-
-{% for tema in temas %}
-
-
-<li><h2 class="card-title">{{ tema.titulo }}</h2> {{ tema.fecha }} - {{ tema.categoria }} - {{ tema.contenido }}</li>
-
-
-<a class="btn btn-danger btn-sm" href="{% url 'eliminarTema' tema.id %}">Eliminar </a>
-<a class="btn btn-primary btn-sm" href="{% url 'editarTema' tema.id %}">Editar </a>
-
-{% endfor %}
-
-<h2>{{ mensaje }}</h2>
 {% endblock %}
+<h2 class="card-title">Listado de temas</h2>
+
+
+
+    {% for tema in temas %}
+
+        {% if tema %}
+
+        <h2  class="card-title"><a class="nav-link active" aria-current="page" href="{% url 'leerTemas2' tema.id %}">{{ tema.titulo }}</a></h2>
+        
+    
+        <li>{{ tema.fecha }} - {{ tema.autor }} - {{ tema.subtitulo }}</li>
+        <br></br>
+
+        <a class="btn btn-danger btn-sm" href="{% url 'eliminarTema' tema.id %}">Eliminar </a>
+        <a class="btn btn-primary btn-sm" href="{% url 'editarTema' tema.id %}">Editar </a>
+
+        {% else %}
+      
+         
+        {% endif %}
+ 
+    
+    {% endfor %}
+
+    <h2 class="card-title"> {{ mensaje }}</h2> 
+
+
+
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+
+<br><a class="btn btn-primary btn-sm" href="{% url 'agregarTema' %}">Agregar Nuevo Tema </a></br>
+
+  
+
+
+
+
+{% endblock %}
+  
+
 
 
 
 {% block subtitulo %}
-
-
 
 {% endblock %}

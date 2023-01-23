@@ -2,24 +2,30 @@
 
 {% load static %}
 
-{% block titulo %}
-<h1 class="fw-bolder">ESTOY EN INICIO </h1>
-{% endblock %}
 
 
 
 {% block contenido_que_cambia %}
-<h1>ESTE ES EL CONTENIDO QUE CAMBIO!</h1>
+<h1> </h1>
+{% block titulo %}
+
+
+{% endblock %}
 
 <h2>{{ mensaje }}</h2>
-{% endblock %}
+<img src="{{ avatar }}" alt="">
+
+
 
 
 
 {% block subtitulo %}
+<div>
+    <p><h1>Bienvenidos al Blog tecnologico del 2013 con la mejor información de la red</p></h1> 
+    <p> Por favor elija la opcion de su preferencia.</p>
 
-<h3> Este es un subtitulo</h3>
-<p> ACA CONTINUA MI SUBTITULO</p>
+</div>
 
 
+{% endblock %}
 {% endblock %}

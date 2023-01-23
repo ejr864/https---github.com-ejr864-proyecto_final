@@ -3,13 +3,13 @@
 {% load static %}
 
 {% block titulo %}
-<h1 class="fw-bolder">EDITANDO TEMA </h1>
+
 {% endblock %}
 
 
 
 {% block contenido_que_cambia %}
-<h1 class="mb-5">FORMULARIO DE EDICION</h1>
+<h1 class="card-title">Editar Tema</h1>
 
     
 <h3>{{ mensaje }}</h3>
@@ -23,7 +23,7 @@
     
     </table>
 
-    <input type="submit" value="Guardar Cambios">
+    <input type="submit" class="btn btn-primary btn-sm" value="Guardar Cambios">
 </form>
 
 {% endblock %}

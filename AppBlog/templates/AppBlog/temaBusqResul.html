@@ -18,16 +18,19 @@
 
 {% if temas %}
 
-<h2>LISTADO DE TEMAS</h2>
 
-{% for tema in temas %}
+    <h2 class="card-title">Resultado de temas</h2>
 
-<li>{{ tema.titulo }} - {{ tema.fecha }} - {{ tema.autor }} - {{ tema.categoria }} - {{ tema.contenido }}</li>
+        {% for tema in temas %}
 
-{% endfor %}
+                <h2  class="card-title"><a class="nav-link active" aria-current="page" href="{% url 'leerTemas2' tema.id %}">{{ tema.titulo }}</a></h2>
+
+            <li>{{ tema.fecha }} - {{ tema.autor }} - {{ tema.resumen }}</li>
+
+        {% endfor %}
 
 {% else %}
-<h2>NO HAY TEMAS</h2>
+    <h2>NO HAY TEMAS</h2>
 
 {% endif %}
 {% endblock %}

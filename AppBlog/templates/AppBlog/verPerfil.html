@@ -1,0 +1,56 @@
+{% extends "AppBlog/abuelo.html" %}
+
+{% load static %}
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+</head>
+<body>
+
+
+    
+
+{% block contenido_que_cambia %}
+
+<h3 class="card-title">Perfil Usuario</h3>
+
+
+
+<img src="{{ avatar }}" alt="">
+
+{% if usuario %}
+
+
+
+
+
+<li>Nombre de usuario: {{ user.username }}</li>
+<li>Nombre: {{ user.first_name }}</li>
+<li>Apellido: {{ user.last_name }}</li>
+<li>correo: {{ user.email }}</li>
+
+
+<br><a class="btn btn-primary btn-sm" href="{% url 'editarPerfil' %}">Editar Datos</a></br>
+<br><a class="btn btn-primary btn-sm" href="{% url 'agregarAvatar' %}">Cambiar Avatar</a></br>
+
+
+
+
+{% else %}
+<h2>NO HAY USUARIO</h2>
+
+{% endif %}
+{% endblock %}
+</body>
+</html>
+
+
+

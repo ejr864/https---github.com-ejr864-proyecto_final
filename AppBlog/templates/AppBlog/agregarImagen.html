@@ -9,13 +9,13 @@
 
 
 {% block contenido_que_cambia %}
+<h1 class="card-title">Editar Imagen de: {{ tema.titulo }} </h1>
 
 
-<h1 class="card-title">Editando Perfil: {{ nombreusuario }} </h1>
 
 <h3>{{ mensaje }}</h3>
 
-<form action="{% url 'editarPerfil' %}" method="POST"> {% csrf_token %}
+<form action="{% url 'agregarImagen' %}" method="POST" enctype="multipart/form-data"> {% csrf_token %}
 
     <table>
 
@@ -23,12 +23,7 @@
     
     </table>
 
-    <input type="submit" class="btn btn-primary btn-sm" value="Modificar Cambios">
-
-    
-
-
-
+    <input type="submit" class="btn btn-primary btn-sm" value="Agregar Imagen">
 
 
 </form>
