@@ -213,6 +213,8 @@ def leerTemas2(request, id):
     tema= Tema.objects.get(id=id)
     return render(request, "AppBlog/detalleTema.html", {"tema": tema})
 
+    
+
 
 
 def acerca(request):
@@ -342,6 +344,11 @@ class CanalFormMixin(FormMixin):
 	form_class =FormMensajes
 	#success_url = "./"
 
+    
+	def is_ajax():
+		return request.headers.get('x-requested-with') == 'XMLHttpRequest'
+
+
 	def get_success_url(self):
 		return self.request.path
 
@@ -357,7 +364,7 @@ class CanalFormMixin(FormMixin):
 			mensaje = form.cleaned_data.get("mensaje")
 			canal_obj = CanalMensaje.objects.create(canal=canal, usuario=usuario, texto=mensaje)
 			
-			if request.is_ajax():
+			if is_ajax():
 				return JsonResponse({
 
 					'mensaje':canal_obj.texto,

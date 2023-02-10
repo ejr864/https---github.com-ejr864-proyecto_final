@@ -1,4 +1,7 @@
-{% extends "AppBlog/base.html" %}
+{% extends "AppBlog/abuelo.html" %}
+
+{% load static %}
+
 
 {% load static %}
 
@@ -64,7 +67,7 @@
 
 {% endfor %}
 
-<li class="nav-item"><a class="nav-link" href="{% url 'ListarUser' %}">Escribe a Otros Usuarios</a></li>  
+<li class="nav-item"><a class="btn btn-primary btn-sm" href="{% url 'ListarUser' %}">Escribe a Otros Usuarios</a></li>  
 
 
 <style>
