@@ -1,16 +1,20 @@
 from django.shortcuts import render
 
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, JsonResponse
+from django.core.exceptions import PermissionDenied
 
 from django.urls import reverse_lazy
 
 from .models import *      
+from .models import CanalMensaje, CanalUsuario, Canal
+
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
+from django.views.generic.edit import FormMixin
+
+from django.core.exceptions import PermissionDenied
 
 
-
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-
-from AppBlog.forms import TemaFormu,  RegistroUsuarioForm, UserEditForm, AvatarForm, ImagenTemaForm
+from AppBlog.forms import TemaFormu,  RegistroUsuarioForm, UserEditForm, AvatarForm, ExtraForm, FormMensajes
 
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login, authenticate
@@ -45,7 +49,7 @@ def agregarTema(request):
 
     if request.method=="POST":
 
-        form=TemaFormu(request.POST)
+        form=TemaFormu(request.POST, request.FILES)
 
         if form.is_valid():
 
@@ -61,7 +65,9 @@ def agregarTema(request):
 
             cuerpo=info["cuerpo"]    
 
-            tema= Tema(titulo=titulo, subtitulo=subtitulo, autor=autor, resumen=resumen, cuerpo=cuerpo)
+            img_tema=info["img_tema"]  
+
+            tema= Tema(titulo=titulo, subtitulo=subtitulo, autor=autor, resumen=resumen, cuerpo=cuerpo, img_tema=img_tema)
 
             tema.save()
 
@@ -226,18 +232,6 @@ def obtenerAvatar(request):
 
 
 
-def obtenerImagen(request):
-    lista=Imagen.objects.filter(user=request.user) 
-    if len(lista)!=0:
-        imagen=lista[0].imagen.url
-    else:
-        return render(request, {"mensaje": "imagen no guardada"})
-    return imagen
-
-
-
-
-
 def ListarUser(request):
 
     displayusername= User.objects.all()    
@@ -282,50 +276,162 @@ def agregarImagen(request):
 
 
 
+def agregarExtra(request):
+
+    if request.method=="POST":
+
+        form=ExtraForm(request.POST)
+
+        if form.is_valid():
+
+            info=form.cleaned_data
+
+            direccion=info["direccion"]
+
+            telefono=info["telefono"] 
+
+            pagina=info["pagina"]             
+
+            extra= Extra(direccion=direccion, telefono=telefono, pagina=pagina)
+
+            extra.save()
+
+            extra= Extra.objects.all()
+
+            return render(request, "AppBlog/verPerfil2.html", {"extra": extra, "mensaje": "datos correctamente"})       
+        else:
+
+            return render(request, "AppBlog/agregarExtra.html", {"form": form, "mensaje": "informacion no valida"})
+    else:
+        form= ExtraForm()
+        return render(request, "AppBlog/agregarExtra.html", {"form": form})       
 
 
-class CanalDetailView(LoginRequiredMixin, DetailView):
-    template_name= "AppBlog/canal_detail.html"
-    queryset = Canal.objects.all()
-    
 
 
 
-class DetailMs(LoginRequiredMixin, DetailView):
+class Inbox(View):
+    def get(self, request):
 
-    template_name= "AppBlog/canal_detail.html" 
-    def get_object(self, *args, **kwargs):
+        inbox = Canal.objects.filter(canalusuario__usuario__in=[request.user.id])
 
-        username = self.kwargs.get("username")
-        mi_username = self.request.user.username
-        canal, _ = Canal.objects.obtener_o_crear_canal_ms(mi_username, username)
+        context = {
+            
+            "inbox":inbox
 
-        if username == mi_username:
-            mi_canal, _ = Canal.objects.obtener_o_crear_canal_usuario_actual(self.request.user)
-            return mi_canal
+        }
+
+        return render(request, 'AppBlog/inbox.html', context)
 
 
-        if canal == None:
-            raise Http404
 
-        return canal
+# def inbox(self, request):
 
+#         inbox = Canal.objects.filter(canalusuario__usuario___in=[request.user.id])
+
+#         context = {
+            
+#             "inbox":inbox
+
+#         }
+
+#         return render(request, "AppBlog/inbox.html", context)
+
+
+class CanalFormMixin(FormMixin):
+	form_class =FormMensajes
+	#success_url = "./"
+
+	def get_success_url(self):
+		return self.request.path
+
+	def post(self, request, *args, **kwargs):
+
+		if not request.user.is_authenticated:
+			raise PermissionDenied
+
+		form = self.get_form()
+		if form.is_valid():
+			canal = self.get_object()
+			usuario = self.request.user 
+			mensaje = form.cleaned_data.get("mensaje")
+			canal_obj = CanalMensaje.objects.create(canal=canal, usuario=usuario, texto=mensaje)
+			
+			if request.is_ajax():
+				return JsonResponse({
+
+					'mensaje':canal_obj.texto,
+					'username':canal_obj.usuario.username
+					}, status=201)
+
+			return super().form_valid(form)
+
+		else:
+
+			if request.is_ajax():
+				return JsonResponse({"Error":form.errors}, status=400)
+
+			return super().form_invalid(form)
+
+class CanalDetailView(LoginRequiredMixin, CanalFormMixin, DetailView):
+	template_name= 'AppBlog/canal_detail.html'
+	queryset = Canal.objects.all()
+
+	def get_context_data(self, *args, **kwargs):
+		context = super().get_context_data(*args, **kwargs)
+
+		obj = context['object']
+		print(obj)
+
+		#if self.request.user not in obj.usuarios.all():
+		#	raise PermissionDenied
+
+		context['si_canal_mienbro'] = self.request.user in obj.usuarios.all()
+
+		return context
+
+	#def get_queryset(self):
+	#	usuario =self.request.user
+	#	username = usuario.username
+
+	#	qs = Canal.objects.all().filtrar_por_username(username)
+	#	return qs
+
+class DetailMs(LoginRequiredMixin, CanalFormMixin, DetailView):
+
+	template_name= 'AppBlog/canal_detail.html'
+
+	def get_object(self, *args, **kwargs):
+
+		username = self.kwargs.get("username")
+		mi_username = self.request.user.username
+		canal, _ = Canal.objects.obtener_o_crear_canal_ms(mi_username, username)
+
+		if username == mi_username:
+			mi_canal, _ = Canal.objects.obtener_o_crear_canal_usuario_actual(self.request.user)
+
+			return mi_canal
+
+		if canal == None:
+			raise Http404
+
+		return canal
 
 def mensajes_privados(request, username, *args, **kwargs):
 
-    if not request.user.is_authenticated:
-        return HttpResponse("Prohibido")
+	if not request.user.is_authenticated:
+		return HttpResponse("Prohibido")
 
-    mi_username = request.user.username
+	mi_username = request.user.username
 
-    canal, created = Canal.objects.obtener_o_crear_canal_ms(mi_username, username)
+	canal, created = Canal.objects.obtener_o_crear_canal_ms(mi_username, username)
 
-    if created:
-        print("si, fue creado")
+	if created:
+		print("Si, fue creado")
 
-    Usuarios_Canal= canal.canalusuario_set.all().values("usuario__username")
-    print(Usuarios_Canal)
-    mensaje_canal = canal.canalmensaje_set.all()    
-    print(mensaje_canal.values("texto"))
+	Usuarios_Canal = canal.canalusuario_set.all().values("usuario__username")
+	print(Usuarios_Canal)
+	mensaje_canal  = canal.canalmensaje_set.all()
+	print(mensaje_canal.values("texto"))
 
-    return HttpResponse(f"Nuestro Id del Canal - {canal.id}")
+	return HttpResponse(f"Nuestro Id del Canal - {canal.id}")

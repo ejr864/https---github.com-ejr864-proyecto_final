@@ -1,8 +1,13 @@
 from django.urls import path, re_path
 from .views import *
-from .views import DetailMs, CanalDetailView, mensajes_privados
+from .views import DetailMs, CanalDetailView, mensajes_privados, ListarUser,  Inbox
 from django.conf.urls.static import static
 from django.contrib.auth.views import LogoutView
+
+
+UUID_CANAL_REGEX = r'canal/(?P<pk>[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12})'
+
+
 
 urlpatterns = [
     
@@ -24,12 +29,23 @@ urlpatterns = [
     path("ListarUser/", ListarUser, name="ListarUser"),
     path("agregarAvatar/", agregarAvatar, name="agregarAvatar"),
     path("agregarImagen/", agregarImagen, name="agregarImagen"),
+    path("agregarExtra/", agregarExtra, name="agregarExtra"),
 
 
-    path("mensajes_privados/<str:username>", mensajes_privados),
-    path("DetailMs/<str:username>", DetailMs.as_view(), name="detailms"),
-    re_path(r'canal/(?P<pk>[\w-]+)', CanalDetailView.as_view()),
+    
+
+
+
+
+    
+    
+    re_path(UUID_CANAL_REGEX, CanalDetailView.as_view()),
+    path("dm/<str:username>", mensajes_privados),
+    path("ms/<str:username>", DetailMs.as_view(), name="detailms"),
+    path('Inbox', Inbox.as_view(), name="Inbox"),
     
     
     
 ]
+
+

@@ -1,0 +1,44 @@
+{% extends "AppBlog/abuelo.html" %}
+
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    
+    
+{% block contenido_que_cambia %}
+
+
+
+<h2 class="card-title">Agregar Datos Adicionales</h2>
+
+
+
+<form action="{% url 'agregarExtra' %}" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+
+    <table>
+
+        {{ form.as_table }}
+    
+    </table>
+
+    <input type="submit" class="btn btn-primary btn-sm" value="Agregar Datos Adicionales">
+
+
+</form>
+
+
+</body>
+</html>
+
+
+<h3>{{ mensaje }}</h3>
+
+{% endblock %}

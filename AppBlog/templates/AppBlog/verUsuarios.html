@@ -12,23 +12,36 @@
 </head>
 <body>
 
-    {% block contenido_que_cambia %}
+{% block contenido_que_cambia %}
 
  
 
     <title>Document</title>
     
-    <select>
+
 
 
         {% for resultado in displayusername %}
-        <option>{{ resultado.username }}  </option>
+
+            {% if resultado %}
+
+        
+      
+        <h5 class="card-title"><a class="nav-link active" aria-current="page" href="{% url 'detailms' resultado.username %}">{{ resultado.username }}</a></h5>
+
+
+        
+
+            {% endif %}
+ 
+
         {% endfor %}
 
-    
+ 
+
     
 
-    </select>
+
 
 
 

@@ -21,11 +21,11 @@
     
 
 {% block contenido_que_cambia %}
-<div class="card mb-4">
-    <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
+<div style="margin:0 auto;" class="card mb-4 center">
+    <center><a href="#!"><img src="{{ tema.img_tema.url  }}" alig="center" class="center" alt=""></a></center>
     <div class="card-body">
 
-
+      
 {% if tema %}
 
 <h2>{{ tema.titulo }}</h2>
@@ -37,6 +37,11 @@
 <li>{{ tema.fecha }}</li>
 <li>{{ tema.autor }}</li>
 <li>{{ tema.cuerpo }}</li>
+
+
+
+
+
 
 
 
